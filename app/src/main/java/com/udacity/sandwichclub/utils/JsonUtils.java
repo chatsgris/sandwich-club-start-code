@@ -18,7 +18,6 @@ public class JsonUtils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         String mainName = null;
         try {
             mainName = jsonObject.getJSONObject("name").getString("mainName");
