@@ -3,6 +3,7 @@ package com.udacity.sandwichclub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,27 +67,45 @@ public class DetailActivity extends AppCompatActivity {
 
     private void populateUI(Sandwich sandwich) {
         TextView descriptionTv = findViewById(R.id.description_tv);
-        descriptionTv.setText(sandwich.getDescription());
+        TextView descriptionLabel = findViewById(R.id.description_label);
+        if(sandwich.getDescription().isEmpty()) {
+            descriptionTv.setVisibility(View.GONE);
+            descriptionLabel.setVisibility(View.GONE);
+        } else {descriptionTv.setText(sandwich.getDescription());}
 
         TextView originsTv = findViewById(R.id.origin_tv);
-        originsTv.setText(sandwich.getPlaceOfOrigin());
+        TextView originLabel = findViewById(R.id.detail_place_of_origin_label);
+        if(sandwich.getPlaceOfOrigin() == null) {
+            originsTv.setVisibility(View.GONE);
+            originLabel.setVisibility(View.GONE);
+        } else {originsTv.setText(sandwich.getPlaceOfOrigin());}
 
         TextView alsoKnownAsTv = findViewById(R.id.also_known_tv);
+        TextView alsoKnownAsLabel = findViewById(R.id.detail_also_known_as_label);
         setTextViewValues(sandwich.getAlsoKnownAs(), alsoKnownAsTv);
+        if(alsoKnownAsTv.getVisibility() == View.GONE) {
+            alsoKnownAsLabel.setVisibility(View.GONE);
+        }
 
         TextView ingredientsTv = findViewById(R.id.ingredients_tv);
+        TextView ingredientsLabel = findViewById(R.id.detail_ingredients_label);
         setTextViewValues(sandwich.getIngredients(), ingredientsTv);
+        if(ingredientsTv.getVisibility() == View.GONE) {
+            ingredientsLabel.setVisibility(View.GONE);
+        }
     }
 
     public void setTextViewValues (List<String> vals, TextView text) {
         String output = "";
-        for (int i = 0; i < vals.size(); i++) {
-            if (i < vals.size() - 1) {
-                output += (vals.get(i) + ", ");
-            } else {
-                output += (vals.get(i));
+        if (vals.size() == 0) {
+            text.setVisibility(View.GONE);
+        } else {
+            for (int i = 0; i < vals.size(); i++) {
+                if (i < vals.size() - 1) {
+                    output += (vals.get(i) + ", ");
+                } else {output += (vals.get(i));}
             }
+            text.setText(output);
         }
-        text.setText(output);
     }
 }
